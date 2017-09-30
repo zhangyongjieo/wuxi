@@ -69,7 +69,7 @@
                         <el-table-column label="操作" width="200">
                             <template scope="scope">
                                 <el-button type="primary">编辑详情</el-button>
-                                <el-button type="danger">删除</el-button>
+                                <el-button type="danger" @click="handleDel(scope.$index, scope.row)">删除</el-button>
                             </template>
                         </el-table-column>
                     </el-table>
@@ -153,6 +153,19 @@ export default {
         }
     },
     methods: {
+        handleDel: function(index, row)  {
+            this.$confirm('确认删除该记录吗','提示',{
+                type:'warning'
+            }).then(()=>{
+//                let para = {id: row.id}
+                this.$message({
+                    message: '删除成功',
+                    type: 'success'
+                })
+            }).catch(()=>{
+
+            })
+        },
         getUserInfoData() {
             // //获取用户列表的数据
             // fetchUserInfoList(this.filters).then(res=>{

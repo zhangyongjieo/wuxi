@@ -164,14 +164,13 @@ export default {
             userListTotal: 100,//用户总数
             showFile: false,
             dialogVisible: false,
-            rowMsg: {},//当前选中行的数据
+            rowMsg: {},//当  前选中行的数据
             resetPass: {
                 id:'',//用户的id
                 oldPwd:'',//旧密码
                 newPwd: '',//新密码
                 reSurePwd: ''//再次确认密码
             },
-
         }
     },
     methods: {

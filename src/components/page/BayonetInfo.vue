@@ -56,7 +56,7 @@
                         <el-table-column label="操作" width="200">
                             <template scope="scope">
                                 <el-button type="primary" @click="detail">编辑详情</el-button>
-                                <el-button type="danger" @click="del">删除</el-button>
+                                <el-button type="danger" @click="handleDel">删除</el-button>
                             </template>
                         </el-table-column>
                     </el-table>
@@ -107,6 +107,16 @@
             }
         },
         methods: {
+            handleDel() {
+                this.$confirm('确认删除该记录吗','提示',{
+                    type: 'warning'
+                }).then(()=>{
+                    this.$message({
+                        message: '删除成功',
+                        type: 'success'
+                    })
+                })
+            },
             getUserInfoData() {
                 // //获取用户列表的数据
                 // fetchUserInfoList(this.filters).then(res=>{
