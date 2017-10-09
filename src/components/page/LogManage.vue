@@ -155,7 +155,7 @@
                 });
             },
             handleCurrentChange(val) {
-                this.filter.page=val
+                this.filter.page = val
                 this.getUserInfoData();
             },
             search() {

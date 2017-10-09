@@ -19,7 +19,7 @@
                 <el-input style="width:300px;" v-model="filters.searchKey" placeholder="请输入关键字">
                     <el-button style="color:#20A0FF" slot="append" @click="getUserInfoData" icon="search"></el-button>
                 </el-input>
-                <el-button style="margin-left:10px" type="primary">
+                <el-button style="margin-left:10px" type="primary" @click="addUser">
                     <i class="el-icon-plus"></i> 添加用户</el-button>
                 <el-button type="danger" @click="deleteById(-100)">
                     <i class="el-icon-close"></i> 删除</el-button>
@@ -109,8 +109,8 @@ export default {
             },
             filters: { // (分页+关键字）查询
                 searchKey: null,//查询的关键字
-                page: 1,//页码
-                pageSize: 12//每页的数据行数
+                page: '',//页码
+                pageSize: ''//每页的数据行数
             },
             userList: [
                 {
@@ -176,11 +176,13 @@ export default {
     methods: {
         getUserInfoData() {
             // //获取用户列表的数据
-            // fetchUserInfoList(this.filters).then(res=>{
+            fetchUserInfoList(this.filters).then(res=>{
+                console.log(1111)
+                console.log(res)
 
-            // }).catch(err=>{
-
-            // })
+             }).catch(err=>{
+                console.log(err)
+             })
             //查询完之后，把查询关键字变为空
             this.filters.searchKey = null
         },
@@ -197,6 +199,10 @@ export default {
         },
         exportData() {
             downUserInfoData();
+        },
+        // 添加用户
+        addUser() {
+            this.$router.push('/addUser')
         },
         //根据id删除成员信息
         deleteById(id) {
@@ -225,6 +231,7 @@ export default {
         },
         //编辑用户信息
         editUserInfo(row) {
+            this.$router.push('/EditUserDetail')
         },
         //密码重置
         resetPassWord(row) {

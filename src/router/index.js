@@ -107,6 +107,14 @@ const router = new Router({
                 {
                     path: '/roleSetting',
                     component:resolve => require(['../components/page/RoleSetting.vue'], resolve)
+                },
+                {
+                    path: '/editUserDetail',
+                    component:resolve => require(['../components/page/EditUserDetail.vue'], resolve)
+                },
+                {
+                    path: '/addUser',
+                    component:resolve => require(['../components/page/AddUser.vue'], resolve)
                 }
             ]
         },

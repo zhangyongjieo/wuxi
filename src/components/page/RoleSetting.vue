@@ -15,7 +15,7 @@
                         <el-input v-model="form_search.qxmc" placeholder="权限名称"></el-input>
                     </el-form-item>
                     <el-button type="primary">保存</el-button>
-                    <el-button style="background: #e6e6e6;color:black">取消</el-button>
+                    <el-button style="background: #e6e6e6;color:black" @click="cacel">取消</el-button>
                 </el-form>
             </div>
         </div>
@@ -155,6 +155,9 @@
             },
             handleClose(key, keyPath) {
                 console.log(key, keyPath);
+            },
+            cacel() {
+                this.$router.push('/roleManage')
             }
         }
     }

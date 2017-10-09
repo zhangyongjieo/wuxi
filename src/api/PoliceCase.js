@@ -85,3 +85,11 @@ export function fetchOrganizationById(query) {
         params: query
     })
 }
+
+export function fetchUserInfoList(query) {
+    return fetch({
+        url: '/fzzx/xt/yh',
+        method: 'get',
+        params: query
+    })
+}
