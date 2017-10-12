@@ -215,6 +215,7 @@
 </template>
 
 <script>
+    import { fetchUserInfoList } from 'src/api/PoliceCase'
 export default {
     data() {
         return {
@@ -262,7 +263,15 @@ export default {
                 this.$message.error('上传头像图片大小不能超过 2MB!');
             }
             return isJPG && isLt2M;
+        },
+        fetchUserInfoData(row) {
+            fetchUserInfoList().then(res => {
+                console.log(res)
+            })
         }
+    },
+    mounted() {
+        this.fetchUserInfoData()
     }
 }
 </script>

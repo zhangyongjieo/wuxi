@@ -148,11 +148,15 @@ const router = new Router({
                 },
                 {
                     path: '/editBayonetInfo',
-                    component: resolve => require(['../components/page/editBayonetInfo'], resolve)
+                    component: resolve => require(['../components/page/editBayonetInfo.vue'], resolve)
                 },
                 {
                     path: '/victimInfo',
-                    component: resolve => require(['../components/page/victimInfo'], resolve)
+                    component: resolve => require(['../components/page/victimInfo.vue'], resolve)
+                },
+                {
+                    path: '/SuspectInfo',
+                    component: resolve => require(['../components/page/SuspectInfo.vue'], resolve)
                 }
             ]
         },

@@ -84,6 +84,10 @@
                             {
                                 index: 'victimInfo',
                                 title: '案件受害人信息'
+                            },
+                            {
+                                index: 'SuspectInfo',
+                                title: '案件嫌疑人信息'
                             }
                         ]
                     }

@@ -93,3 +93,34 @@ export function fetchUserInfoList(query) {
         params: query
     })
 }
+
+export function fetchUserInfo(query) {
+    return fetch({
+        url: '/fzzx/xt/yh/',
+        method: 'get',
+        params: query
+    })
+}
+
+export function downUserInfoData() {
+    return fetch({
+
+    })
+}
+
+export function removeUser(query) {
+    return fetch({
+        url: '/fzzx/xt/yh',
+        method: 'delete',
+        params: query
+    })
+}
+
+
+export function addUser(params) {
+    return fetch({
+        url: '/fzzx/xt/yh',
+        method: 'put',
+        data: params
+    })
+}

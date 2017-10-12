@@ -16,13 +16,15 @@
                 </el-upload>
             </el-col>
             <el-col :span="14" align="right">
-                <el-input style="width:300px;" v-model="filters.searchKey" placeholder="请输入关键字">
-                    <el-button style="color:#20A0FF" slot="append" @click="getUserInfoData" icon="search"></el-button>
-                </el-input>
-                <el-button style="margin-left:10px" type="primary" @click="addUser">
-                    <i class="el-icon-plus"></i> 添加用户</el-button>
-                <el-button type="danger" @click="deleteById(-100)">
-                    <i class="el-icon-close"></i> 删除</el-button>
+                <el-form :inline="true" :model="filters">
+                    <el-input style="width:300px;" v-model="filters.searchKey" placeholder="请输入关键字">
+                        <el-button style="color:#20A0FF" slot="append" @click="getUserInfoData" icon="search"></el-button>
+                    </el-input>
+                    <el-button style="margin-left:10px" type="primary" @click="addUser">
+                        <i class="el-icon-plus"></i> 添加用户</el-button>
+                    <el-button type="danger" @click="batchRemove" :disabled="this.sels.length === 0">
+                        <i class="el-icon-close"></i> 删除</el-button>
+                </el-form>
             </el-col>
         </el-row>
 
@@ -46,7 +48,7 @@
                         <template scope="scope">
                             <span @click="editUserInfo(scope.row)" class="linkstyle">编辑▪</span>
                             <span @click="resetPassWord(scope.row)" class="linkstyle">重置密码▪</span>
-                            <span @click="deleteById(scope.row.id)" class="linkstyle">删除</span>
+                            <span @click="deleteById(scope.row)" class="linkstyle">删除</span>
                         </template>
                     </el-table-column>
                 </el-table>
@@ -84,7 +86,7 @@
 </template>
 
 <script>
-import { fetchUserInfoList, downUserInfoData, deleteUserById } from 'src/api/PoliceCase'
+import { fetchUserInfoList, downUserInfoData, removeUser } from 'src/api/PoliceCase'
 
 export default {
     data() {
@@ -107,10 +109,10 @@ export default {
                    { min: 6, max: 15, message: '长度在 6 到 15 个字符', trigger: 'blur' }
                 ]
             },
-            filters: { // (分页+关键字）查询
-                searchKey: null,//查询的关键字
-                page: '',//页码
-                pageSize: ''//每页的数据行数
+            page: '',//页码
+            pageSize: '',//每页的数据行数
+            filters: { // 查询
+                searchKey: '',//查询的关键字
             },
             userList: [
                 {
@@ -161,10 +163,11 @@ export default {
                 }
             ],//用户列表
             mutipartSelection: [],//多选参数
-            userListTotal: 100,//用户总数
+            userListTotal: 10000,//用户总数
             showFile: false,
             dialogVisible: false,
             rowMsg: {},//当  前选中行的数据
+            sels: [],//列表选中列
             resetPass: {
                 id:'',//用户的id
                 oldPwd:'',//旧密码
@@ -175,16 +178,19 @@ export default {
     },
     methods: {
         getUserInfoData() {
-            // //获取用户列表的数据
-            fetchUserInfoList(this.filters).then(res=>{
-                console.log(1111)
+             //获取用户列表
+            var para = {
+                currNo: this.page,
+                pageSize: this.pageSize,
+                searchKey: this.filters.searchKey
+            }
+            fetchUserInfoList(para).then(res=>{
                 console.log(res)
-
+                this.userListTotal = res.data.data.total
+                this.userList = res.data.data.list
              }).catch(err=>{
                 console.log(err)
              })
-            //查询完之后，把查询关键字变为空
-            this.filters.searchKey = null
         },
         handleSelectionChange(row) {//处理多选框
             this.mutipartSelection = []
@@ -205,29 +211,30 @@ export default {
             this.$router.push('/addUser')
         },
         //根据id删除成员信息
-        deleteById(id) {
-            let query = [];
-            if(id===-100){
-                query = this.mutipartSelection
-            }else{
-                query.push(id)
-            }
-            alert(JSON.stringify(query))
+        deleteById(row) {
             this.$confirm('确定删除此用户吗？', '提示', {
-                confirmButtonText: "确定",
-                cancelButtonText: "取消",
-                type: "danger"
+                type: "warning"
             }).then(() => {
                 //开始删除
-                // deleteUserById(id).then(res=>{
+                var para = {id:row.id}
+                console.log(para)
+                 removeUser(para).then(res=>{
+                    console.log(res)
+                     this.$message({
+                         message:'删除成功',
+                         type:'success'
+                     })
+                 }).catch(err=>{
 
-                // }).catch(err=>{
-
-                // })
+                 })
                 this.getUserInfoData();
             }).catch(() => {
 
             })
+        },
+        // 批量删除
+        batchRemove() {
+
         },
         //编辑用户信息
         editUserInfo(row) {
